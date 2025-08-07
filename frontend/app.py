@@ -9,26 +9,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- PWA SETTINGS (Updated with corrected paths for Streamlit Cloud) ---
-# This injects the necessary HTML to make the app a PWA
-PWA_HTML = """
-    <link rel="manifest" href="/app/static/manifest.json">
-    <meta name="theme-color" content="#4A90E2">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/app/static/service-worker.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
-"""
-st.markdown(PWA_HTML, unsafe_allow_html=True)
-
-
 # --- STATE MANAGEMENT & API SETUP ---
 BASE_URL = "https://cura-backend-main-99c8.onrender.com/api"
 
@@ -120,8 +100,27 @@ if st.session_state['page'] == "Home":
 
     # --- LOGGED-OUT VIEW (LANDING PAGE) ---
     else:
+        # --- PWA SETTINGS (Moved here to only show on the landing page) ---
+        PWA_HTML = """
+            <link rel="manifest" href="/app/static/manifest.json">
+            <meta name="theme-color" content="#4A90E2">
+            <script>
+                if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', function() {
+                        navigator.serviceWorker.register('/app/static/service-worker.js').then(function(registration) {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        }, function(err) {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                    });
+                }
+            </script>
+        """
+        st.markdown(PWA_HTML, unsafe_allow_html=True)
+        
         st.header("Your Personal Health Companion")
         st.markdown("#### Manage your medications and get personalized diet plans all in one place.")
+        st.image("https://images.unsplash.com/photo-1576091160550-2173516e8731?q=80&w=2970&auto=format&fit=crop", use_column_width=True)
         
         st.divider()
         
@@ -160,6 +159,23 @@ if st.session_state['page'] == "Home":
             
         st.divider()
         
+        # --- PWA Installation Section with Button ---
+        st.header("📱 Get the Mobile App")
+        st.markdown("For the best experience, add CURA to your phone's home screen.")
+        
+        with st.expander("Click here for installation instructions"):
+            col1, col2 = st.columns(2)
+            with col1:
+                st.subheader("Android (Chrome)")
+                st.markdown("1. Tap the **three-dot menu** in the top right.")
+                st.markdown("2. Select **'Install app'** or **'Add to Home screen'**.")
+            with col2:
+                st.subheader("iOS (Safari)")
+                st.markdown("1. Tap the **Share** icon (a box with an arrow).")
+                st.markdown("2. Scroll down and tap **'Add to Home Screen'**.")
+
+        st.divider()
+
         # --- Call to Action ---
         _, center_col, _ = st.columns([1, 2, 1])
         with center_col:
