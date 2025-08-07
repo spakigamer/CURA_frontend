@@ -1,3 +1,22 @@
+# --- PWA SETTINGS ---
+# This injects the necessary HTML to make the app a PWA
+
+PWA_HTML = """
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#4A90E2">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/static/service-worker.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+"""
+st.markdown(PWA_HTML, unsafe_allow_html=True)
 # app.py
 import streamlit as st
 import requests
