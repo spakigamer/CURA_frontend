@@ -1,6 +1,16 @@
+# app.py
+import streamlit as st
+import requests
+
+# --- PAGE CONFIG (MUST BE THE FIRST STREAMLIT COMMAND) ---
+st.set_page_config(
+    page_title="CURA Health Agents",
+    page_icon="💊",
+    layout="wide"
+)
+
 # --- PWA SETTINGS ---
 # This injects the necessary HTML to make the app a PWA
-
 PWA_HTML = """
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#4A90E2">
@@ -17,16 +27,7 @@ PWA_HTML = """
     </script>
 """
 st.markdown(PWA_HTML, unsafe_allow_html=True)
-# app.py
-import streamlit as st
-import requests
 
-# --- PAGE CONFIG ---
-st.set_page_config(
-    page_title="CURA Health Agents",
-    page_icon="💊",
-    layout="wide"
-)
 
 # --- STATE MANAGEMENT & API SETUP ---
 BASE_URL = "https://cura-backend-main-99c8.onrender.com/api"
