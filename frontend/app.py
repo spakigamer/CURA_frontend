@@ -120,7 +120,6 @@ if st.session_state['page'] == "Home":
         
         st.header("Your Personal Health Companion")
         st.markdown("#### Manage your medications and get personalized diet plans all in one place.")
-        st.image("https://images.unsplash.com/photo-1576091160550-2173516e8731?q=80&w=2970&auto=format&fit=crop", use_column_width=True)
         
         st.divider()
         
