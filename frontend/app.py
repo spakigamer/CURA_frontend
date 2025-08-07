@@ -9,15 +9,24 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- PWA SETTINGS ---
+# --- PWA SETTINGS (Updated with relative paths) ---
 # This injects the necessary HTML to make the app a PWA
 PWA_HTML = """
-    <link rel="manifest" href="/static/manifest.json">
+    <link rel="manifest" href="static/manifest.json">
     <meta name="theme-color" content="#4A90E2">
     <script>
+        // Unregister all previous service workers
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/static/service-worker.js').then(function(registration) {
+                navigator.serviceWorker.register('static/service-worker.js').then(function(registration) {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
                     console.log('ServiceWorker registration failed: ', err);
